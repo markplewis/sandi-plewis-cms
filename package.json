@@ -15,10 +15,14 @@
     "sanity"
   ],
   "prettier": {
-    "semi": false,
+    "arrowParens": "avoid",
+    "bracketSameLine": true,
+    "jsxSingleQuote": false,
     "printWidth": 100,
-    "bracketSpacing": false,
-    "singleQuote": true
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "none"
   },
   "scripts": {
     "dev": "sanity dev",
@@ -43,6 +47,8 @@
     "@sanity/cli": "^3.0.6",
     "@sanity/eslint-config-studio": "^2.0.1",
     "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.1",
     "typescript": "^4.0.0"
   }

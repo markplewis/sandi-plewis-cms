@@ -6,7 +6,7 @@ import {
   EditIcon
 } from "@sanity/icons";
 import {
-  HiOutlineHome,
+  HiOutlineHome
   // HiOutlineBookOpen,
   // HiOutlineUser,
   // HiOutlineDocumentText,
@@ -19,7 +19,7 @@ import {
 
 export const structure = (S, context) =>
   S.list()
-    .title('Content')
+    .title("Content")
     .items([
       S.listItem()
         .title("Home page")
@@ -30,22 +30,21 @@ export const structure = (S, context) =>
             .documentId("homePage")
             .schemaType("homePage")
             .views([
-              S.view.form().icon(EditIcon),
+              S.view.form().icon(EditIcon)
               // S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
             ])
         ),
-      ...S.documentTypeListItems()
-        .filter(listItem => {
-          return listItem.getId() !== "homePage";
-        })
-    ])
+      ...S.documentTypeListItems().filter(listItem => {
+        return listItem.getId() !== "homePage";
+      })
+    ]);
 
-export const defaultDocumentNode = (S) => {    
+export const defaultDocumentNode = S => {
   return S.document().views([
-    S.view.form(),
+    S.view.form()
     // S.view.component(JsonView).title('JSON')
-  ])
-}
+  ]);
+};
 
 // export const structure = (S, context) =>
 //   S.list()

@@ -1,8 +1,8 @@
-import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
-import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemas'
-import {structure, defaultDocumentNode} from './structure'
+import { defineConfig } from "sanity";
+import { deskTool } from "sanity/desk";
+import { visionTool } from "@sanity/vision";
+import { schemaTypes } from "./schemas";
+import { structure, defaultDocumentNode } from "./structure";
 // https://www.sanity.io/plugins/color-input
 import { colorInput } from "@sanity/color-input";
 // https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash
@@ -17,20 +17,20 @@ const projectId = import.meta.env.SANITY_STUDIO_API_PROJECT_ID;
 const dataset = import.meta.env.SANITY_STUDIO_API_DATASET;
 
 export default defineConfig({
-  name: 'default',
+  name: "default",
   title: "Sandi Plewis' Blog",
   projectId,
   dataset,
   plugins: [
     deskTool({
       structure,
-      defaultDocumentNode,
+      defaultDocumentNode
     }),
     visionTool(),
     colorInput(),
     unsplashImageAsset()
   ],
   schema: {
-    types: schemaTypes,
-  },
-})
+    types: schemaTypes
+  }
+});

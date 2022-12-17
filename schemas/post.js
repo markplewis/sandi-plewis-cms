@@ -57,10 +57,6 @@ const PostSchema = {
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-          // TODO: The "options.isHighlighted" property is deprecated. You can put fields behind a collapsed fieldset if you want to hide them from plain sight.
-          // options: {
-          //   isHighlighted: true
-          // }
         }
       ]
     },

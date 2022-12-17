@@ -17,6 +17,9 @@ import {
 // Structure Builder: https://www.sanity.io/docs/structure-builder-reference
 // Note: context includes `currentUser` and the client
 
+// TODO: figure out how to implement page previews
+// See: https://github.com/sanity-io/nextjs-blog-cms-sanity-v3/blob/main/sanity.config.ts
+
 export const structure = (S, context) =>
   S.list()
     .title("Content")

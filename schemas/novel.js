@@ -50,20 +50,13 @@ const NovelSchema = {
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-          // TODO: The "options.isHighlighted" property is deprecated. You can put fields behind a collapsed fieldset if you want to hide them from plain sight.
-          // options: {
-          //   isHighlighted: true
-          // }
         }
         // {
         //   title: "Caption",
         //   description: "An optional caption to display alongside the photo",
         //   name: "caption",
         //   type: "text",
-        //   rows: 3,
-        //   options: {
-        //     isHighlighted: true
-        //   }
+        //   rows: 3
         // }
       ]
     },
@@ -88,29 +81,20 @@ const NovelSchema = {
     //           description: "A short description of the photo (for screen readers)",
     //           name: "alt",
     //           type: "string",
-    //           validation: Rule => Rule.required(),
-    //           options: {
-    //             isHighlighted: true
-    //           }
+    //           validation: Rule => Rule.required()
     //         },
     //         {
     //           title: "Caption",
     //           description: "An optional caption to display alongside the photo",
     //           name: "caption",
     //           type: "text",
-    //           rows: 3,
-    //           options: {
-    //             isHighlighted: true
-    //           }
+    //           rows: 3
     //         },
     //         {
     //           title: "Link URL",
     //           description: "URL of the page this image should link to",
     //           name: "url",
-    //           type: "url",
-    //           options: {
-    //             isHighlighted: true
-    //           }
+    //           type: "url"
     //         }
     //       ]
     //     }

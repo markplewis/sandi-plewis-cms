@@ -99,10 +99,6 @@ const BlockContentSchema = {
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-          // TODO: The "options.isHighlighted" property is deprecated. You can put fields behind a collapsed fieldset if you want to hide them from plain sight.
-          // options: {
-          //   isHighlighted: true
-          // }
         },
         {
           title: "Caption",
@@ -110,9 +106,6 @@ const BlockContentSchema = {
           name: "caption",
           type: "text",
           rows: 3
-          // options: {
-          //   isHighlighted: true
-          // }
         },
         // {
         //   title: "Orientation",
@@ -125,7 +118,6 @@ const BlockContentSchema = {
         //       { title: "Square", value: "square" }
         //     ],
         //     layout: "radio", // Defaults to "dropdown"
-        //     isHighlighted: true
         //   }
         // },
         {
@@ -139,7 +131,6 @@ const BlockContentSchema = {
               { title: "Center", value: "center" }
             ],
             layout: "radio" // Defaults to "dropdown"
-            // isHighlighted: true
           }
         }
       ]

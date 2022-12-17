@@ -13,8 +13,8 @@ import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 
 // See: https://www.sanity.io/docs/config-api-reference
 
-const projectId = import.meta.env.SANITY_STUDIO_API_PROJECT_ID;
-const dataset = import.meta.env.SANITY_STUDIO_API_DATASET;
+const projectId = import.meta.env.SANITY_STUDIO_PROJECT_ID;
+const dataset = import.meta.env.SANITY_STUDIO_DATASET;
 
 export default defineConfig({
   name: "default",

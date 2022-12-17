@@ -5,7 +5,7 @@
 import { useMemo } from "react";
 import { useClient } from "sanity";
 
-const apiVersion = import.meta.env.SANITY_STUDIO_API_VERSION;
+const apiVersion = import.meta.env.SANITY_STUDIO_VERSION;
 
 export function useSanityClient() {
   const client = useClient();
@@ -17,7 +17,7 @@ export function useSanityClient() {
 // // See: https://www.sanity.io/help/studio-client-specify-api-version
 
 // const client = sanityClient.withConfig({
-//   apiVersion: process.env.SANITY_STUDIO_API_VERSION
+//   apiVersion: process.env.SANITY_STUDIO_VERSION
 // });
 
 // export default client;

@@ -6,12 +6,12 @@ import {
   EditIcon
 } from "@sanity/icons";
 import {
-  HiOutlineHome
-  // HiOutlineBookOpen,
-  // HiOutlineUser,
-  // HiOutlineDocumentText,
-  // HiOutlineFolderOpen,
-  // HiOutlineStar
+  HiOutlineHome,
+  HiOutlineBookOpen,
+  HiOutlineUser,
+  HiOutlineDocumentText,
+  HiOutlineFolderOpen,
+  HiOutlineStar
 } from "react-icons/hi";
 
 // Structure Builder: https://www.sanity.io/docs/structure-builder-reference
@@ -19,6 +19,27 @@ import {
 
 // TODO: figure out how to implement page previews
 // See: https://github.com/sanity-io/nextjs-blog-cms-sanity-v3/blob/main/sanity.config.ts
+
+function splitPaneViews(S, listItem, title, schema, Icon) {
+  return listItem
+    .title(title)
+    .schemaType(schema)
+    .icon(Icon)
+    .child(
+      S.documentTypeList(schema)
+        .title(title)
+        .child(documentId =>
+          S.document()
+            .documentId(documentId)
+            .schemaType(schema)
+            .views([
+              S.view.form().icon(EditIcon)
+              // TODO: figure out how to implement page previews
+              // S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
+            ])
+        )
+    );
+}
 
 export const structure = (S, context) =>
   S.list()
@@ -37,9 +58,28 @@ export const structure = (S, context) =>
               // S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
             ])
         ),
-      ...S.documentTypeListItems().filter(listItem => {
-        return listItem.getId() !== "homePage";
-      })
+      ...S.documentTypeListItems()
+        .filter(listItem => {
+          return listItem.getId() !== "homePage";
+        })
+        .map(listItem => {
+          switch (listItem.getId()) {
+            case "author":
+              return splitPaneViews(S, listItem, "Authors", "author", HiOutlineUser);
+            case "category":
+              return splitPaneViews(S, listItem, "Categories", "category", HiOutlineFolderOpen);
+            case "novel":
+              return splitPaneViews(S, listItem, "Novels", "novel", HiOutlineBookOpen);
+            case "shortStory":
+              return splitPaneViews(S, listItem, "Short stories", "shortStory", HiOutlineBookOpen);
+            case "post":
+              return splitPaneViews(S, listItem, "Posts", "post", HiOutlineDocumentText);
+            case "review":
+              return listItem.title("Reviews").icon(HiOutlineStar);
+            default:
+              return listItem;
+          }
+        })
     ]);
 
 export const defaultDocumentNode = S => {
@@ -48,17 +88,3 @@ export const defaultDocumentNode = S => {
     // S.view.component(JsonView).title('JSON')
   ]);
 };
-
-// export const structure = (S, context) =>
-//   S.list()
-//     .title('Content')
-//     .items([
-//       S.listItem()
-//         .title('Settings')
-//         .child(
-//           S.document()
-//             .schemaType('siteSettings')
-//             .documentId('siteSettings')
-//         ),
-//       ...S.documentTypeListItems()
-//     ])

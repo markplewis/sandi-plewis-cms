@@ -1,5 +1,7 @@
 // Migration Cheat Sheet: https://www.sanity.io/docs/migration-cheat-sheet
 
+// # TODO: this hook is not being used yet
+
 import { useMemo } from "react";
 import { useClient } from "sanity";
 

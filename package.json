@@ -24,12 +24,19 @@
     "tabWidth": 2,
     "trailingComma": "none"
   },
+  "scriptsComments": {
+    "dev": "Starts a development server for the Sanity Studio",
+    "start": "Starts a local web server for previewing production build",
+    "build": "Builds the current Sanity configuration to a static bundle",
+    "deploy": "Deploys a statically built Sanity studio",
+    "debug": "Gathers information on Sanity environment"
+  },
   "scripts": {
     "dev": "sanity dev",
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy"
+    "debug": "sanity debug"
   },
   "dependencies": {
     "@sanity/color-input": "^3.0.1",

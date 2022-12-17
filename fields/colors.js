@@ -21,12 +21,18 @@ const colorFields = [
     name: "primaryColor",
     title: "Primary colour",
     type: "color",
+    options: {
+      disableAlpha: true
+    },
     hidden: ({ parent }) => parent?.colorPalette !== "custom"
   },
   {
     name: "secondaryColor",
     title: "Secondary colour",
     type: "color",
+    options: {
+      disableAlpha: true
+    },
     hidden: ({ parent }) => parent?.colorPalette !== "custom"
   }
 ];

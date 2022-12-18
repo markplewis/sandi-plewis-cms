@@ -1,4 +1,4 @@
-import { AiOutlineLine, AiOutlinePaperClip } from "react-icons/ai";
+import { LinkIcon, RemoveIcon } from "@sanity/icons";
 
 // This is the schema definition for the rich text fields in our application. When this schema
 // is imported into `schema.js`, it can be referenced by `name` in other document schemas, for
@@ -57,7 +57,7 @@ const BlockContentSchema = {
             name: "internalLink",
             type: "object",
             blockEditor: {
-              icon: AiOutlinePaperClip
+              icon: LinkIcon
             },
             fields: [
               {
@@ -72,7 +72,7 @@ const BlockContentSchema = {
           //   name: "break",
           //   type: "object",
           //   blockEditor: {
-          //     icon: AiOutlineLine
+          //     icon: RemoveIcon
           //   },
           //   fields: [
           //     {
@@ -139,7 +139,7 @@ const BlockContentSchema = {
       title: "Break",
       name: "break",
       type: "object",
-      icon: AiOutlineLine,
+      icon: RemoveIcon,
       fields: [
         {
           name: "style",

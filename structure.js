@@ -3,16 +3,14 @@
 // https://icons.sanity.build/all
 import {
   // EyeOpenIcon,
-  EditIcon
+  EditIcon,
+  HomeIcon,
+  DocumentTextIcon,
+  FolderIcon,
+  BookIcon,
+  StarIcon,
+  UserIcon
 } from "@sanity/icons";
-import {
-  HiOutlineHome,
-  HiOutlineBookOpen,
-  HiOutlineUser,
-  HiOutlineDocumentText,
-  HiOutlineFolderOpen,
-  HiOutlineStar
-} from "react-icons/hi";
 
 // Structure Builder: https://www.sanity.io/docs/structure-builder-reference
 // Note: context includes `currentUser` and the client
@@ -48,7 +46,7 @@ export const structure = (S, context) =>
       S.listItem()
         .title("Home page")
         .schemaType("homePage")
-        .icon(HiOutlineHome)
+        .icon(HomeIcon)
         .child(
           S.document()
             .documentId("homePage")
@@ -65,17 +63,17 @@ export const structure = (S, context) =>
         .map(listItem => {
           switch (listItem.getId()) {
             case "author":
-              return splitPaneViews(S, listItem, "Authors", "author", HiOutlineUser);
+              return splitPaneViews(S, listItem, "Authors", "author", UserIcon);
             case "category":
-              return splitPaneViews(S, listItem, "Categories", "category", HiOutlineFolderOpen);
+              return splitPaneViews(S, listItem, "Categories", "category", FolderIcon);
             case "novel":
-              return splitPaneViews(S, listItem, "Novels", "novel", HiOutlineBookOpen);
+              return splitPaneViews(S, listItem, "Novels", "novel", BookIcon);
             case "shortStory":
-              return splitPaneViews(S, listItem, "Short stories", "shortStory", HiOutlineBookOpen);
+              return splitPaneViews(S, listItem, "Short stories", "shortStory", BookIcon);
             case "post":
-              return splitPaneViews(S, listItem, "Posts", "post", HiOutlineDocumentText);
+              return splitPaneViews(S, listItem, "Posts", "post", DocumentTextIcon);
             case "review":
-              return listItem.title("Reviews").icon(HiOutlineStar);
+              return listItem.title("Reviews").icon(StarIcon);
             default:
               return listItem;
           }

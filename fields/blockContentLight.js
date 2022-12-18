@@ -1,4 +1,4 @@
-import { AiOutlinePaperClip } from "react-icons/ai";
+import { LinkIcon } from "@sanity/icons";
 
 const blockContentLightFields = [
   {
@@ -34,7 +34,7 @@ const blockContentLightFields = [
           name: "internalLink",
           type: "object",
           blockEditor: {
-            icon: AiOutlinePaperClip
+            icon: LinkIcon
           },
           fields: [
             {

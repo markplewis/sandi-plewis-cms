@@ -11,13 +11,3 @@ export function useSanityClient() {
   const client = useClient();
   return useMemo(() => client.withConfig({ apiVersion }), [client]);
 }
-
-// import sanityClient from "part:@sanity/base/client";
-
-// // See: https://www.sanity.io/help/studio-client-specify-api-version
-
-// const client = sanityClient.withConfig({
-//   apiVersion: process.env.SANITY_STUDIO_VERSION
-// });
-
-// export default client;

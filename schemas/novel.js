@@ -1,7 +1,10 @@
-// import client from "../client";
 import colorFields from "../fields/colors";
 import descriptionField from "../fields/description";
 import { defineField, defineType } from "sanity";
+
+// This is incorrect and doesn't work but I don't want to forget about `getCliClient`:
+// import { getCliClient } from "sanity/cli";
+// const client = getCliClient({ apiVersion: import.meta.env.SANITY_STUDIO_VERSION });
 
 export default defineType({
   name: "novel",
@@ -128,19 +131,18 @@ export default defineType({
       description: "Used when linking to this novel from other pages and also for search engines"
     })
   ],
-
-  // TODO: migrate to Initial Value Templates: https://www.sanity.io/docs/initial-value-templates
-  // See: https://www.sanity.io/guides/getting-started-with-initial-values-for-new-documents
-  // And: https://www.sanity.io/docs/query-cheat-sheet
-  // initialValue: async () => ({
-  //   author: await client.fetch(`
-  //     *[_type == "author"][0]{
-  //       "_type": "reference",
-  //       "_ref": _id
-  //     }
-  //   `)
-  // }),
-
+  initialValue: async (props, context) => {
+    const { getClient } = context;
+    const client = getClient({ apiVersion: import.meta.env.SANITY_STUDIO_VERSION });
+    return {
+      author: await client.fetch(`
+        *[_type == "author"][0]{
+          "_type": "reference",
+          "_ref": _id
+        }
+      `)
+    };
+  },
   preview: {
     select: {
       title: "title",

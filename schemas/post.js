@@ -1,4 +1,3 @@
-// import client from "../client";
 import colorFields from "../fields/colors";
 import descriptionField from "../fields/description";
 import { defineField, defineType } from "sanity";
@@ -71,22 +70,21 @@ export default defineType({
       type: "blockContent"
     })
   ],
-
-  // TODO: migrate to Initial Value Templates: https://www.sanity.io/docs/initial-value-templates
-  // See: https://www.sanity.io/guides/getting-started-with-initial-values-for-new-documents
-  // And: https://www.sanity.io/docs/query-cheat-sheet
-  // initialValue: async () => ({
-  //   publishedAt: new Date().toISOString(),
-  //   // First author in the database
-  //   author: await client.fetch(`
-  //     *[_type == "author"][0]{
-  //       "_type": "reference",
-  //       "_ref": _id
-  //     }
-  //   `),
-  //   colorPalette: "dominant"
-  // }),
-
+  initialValue: async (props, context) => {
+    const { getClient } = context;
+    const client = getClient({ apiVersion: import.meta.env.SANITY_STUDIO_VERSION });
+    return {
+      publishedAt: new Date().toISOString(),
+      // First author in the database
+      author: await client.fetch(`
+        *[_type == "author"][0]{
+          "_type": "reference",
+          "_ref": _id
+        }
+      `),
+      colorPalette: "dominant"
+    };
+  },
   preview: {
     select: {
       title: "title",

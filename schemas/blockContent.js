@@ -1,15 +1,16 @@
 import { LinkIcon, RemoveIcon } from "@sanity/icons";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 // This is the schema definition for the rich text fields in our application. When this schema
 // is imported into `schema.js`, it can be referenced by `name` in other document schemas, for
 // example: `fields: [{ name: "biography", title: "Biography", type: "blockContent" }]`
 
-const BlockContentSchema = {
+export default defineType({
   title: "Block Content",
   name: "blockContent",
   type: "array",
   of: [
-    {
+    defineArrayMember({
       title: "Block",
       type: "block",
       // Styles let you define how your users can mark up blocks. The following styles correspond to
@@ -45,11 +46,11 @@ const BlockContentSchema = {
             name: "link",
             type: "object",
             fields: [
-              {
+              defineField({
                 title: "URL",
                 name: "href",
                 type: "url"
-              }
+              })
             ]
           },
           {
@@ -60,11 +61,11 @@ const BlockContentSchema = {
               icon: LinkIcon
             },
             fields: [
-              {
+              defineField({
                 name: "reference",
                 type: "reference",
                 to: [{ type: "post" }, { type: "novel" }, { type: "shortStory" }]
-              }
+              })
             ]
           }
           // {
@@ -75,39 +76,39 @@ const BlockContentSchema = {
           //     icon: RemoveIcon
           //   },
           //   fields: [
-          //     {
+          //     defineField({
           //       name: "style",
           //       type: "string",
           //       options: {
           //         list: ["lineBreak", "readMore"]
           //       }
-          //     }
+          //     })
           //   ]
           // }
         ]
       }
-    },
+    }),
     // You can add additional types here. Note that you can't use primitive types such as
     // `string` and `number` in the same array as a block type.
-    {
+    defineArrayMember({
       type: "image",
       options: { hotspot: true },
       fields: [
-        {
+        defineField({
           title: "Alternative Text",
           description: "A short description of the photo (for screen readers)",
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-        },
-        {
+        }),
+        defineField({
           title: "Caption",
           description: "An optional caption to display alongside the photo",
           name: "caption",
           type: "text",
           rows: 3
-        },
-        // {
+        }),
+        // defineField({
         //   title: "Orientation",
         //   name: "orientation",
         //   type: "string",
@@ -119,8 +120,8 @@ const BlockContentSchema = {
         //     ],
         //     layout: "radio", // Defaults to "dropdown"
         //   }
-        // },
-        {
+        // }),
+        defineField({
           title: "Alignment",
           name: "alignment",
           type: "string",
@@ -132,16 +133,16 @@ const BlockContentSchema = {
             ],
             layout: "radio" // Defaults to "dropdown"
           }
-        }
+        })
       ]
-    },
-    {
+    }),
+    defineArrayMember({
       title: "Break",
       name: "break",
       type: "object",
       icon: RemoveIcon,
       fields: [
-        {
+        defineField({
           name: "style",
           type: "string",
           options: {
@@ -150,9 +151,8 @@ const BlockContentSchema = {
               { title: "Line break (thick)", value: "thick" }
             ]
           }
-        }
+        })
       ]
-    }
+    })
   ]
-};
-export default BlockContentSchema;
+});

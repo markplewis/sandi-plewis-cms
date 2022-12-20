@@ -12,9 +12,6 @@ import {
   UserIcon
 } from "@sanity/icons";
 
-// Structure Builder: https://www.sanity.io/docs/structure-builder-reference
-// Note: context includes `currentUser` and the client
-
 // TODO: figure out how to implement page previews
 // See: https://github.com/sanity-io/nextjs-blog-cms-sanity-v3/blob/main/sanity.config.ts
 
@@ -33,11 +30,14 @@ function splitPaneViews(S, listItem, title, schema, Icon) {
             .views([
               S.view.form().icon(EditIcon)
               // TODO: figure out how to implement page previews
-              // S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
+              // S.view.component(IframePreview).icon(EyeOpenIcon).title("Web Preview")
             ])
         )
     );
 }
+
+// Structure Builder: https://www.sanity.io/docs/structure-builder-reference
+// Note: context includes `currentUser` and the client
 
 export const structure = (S, context) =>
   S.list()
@@ -53,7 +53,7 @@ export const structure = (S, context) =>
             .schemaType("homePage")
             .views([
               S.view.form().icon(EditIcon)
-              // S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
+              // S.view.component(IframePreview).icon(EyeOpenIcon).title("Web Preview")
             ])
         ),
       ...S.documentTypeListItems()

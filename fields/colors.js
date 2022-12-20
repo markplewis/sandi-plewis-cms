@@ -1,5 +1,7 @@
+import { defineField } from "sanity";
+
 const colorFields = [
-  {
+  defineField({
     title: "Colour palette",
     name: "colorPalette",
     description: `Colours will be extracted from the photo unless you choose "custom", in which case you'll be able to select your own colours`,
@@ -16,8 +18,8 @@ const colorFields = [
         { title: "Custom", value: "custom" }
       ]
     }
-  },
-  {
+  }),
+  defineField({
     name: "primaryColor",
     title: "Primary colour",
     type: "color",
@@ -25,8 +27,8 @@ const colorFields = [
       disableAlpha: true
     },
     hidden: ({ parent }) => parent?.colorPalette !== "custom"
-  },
-  {
+  }),
+  defineField({
     name: "secondaryColor",
     title: "Secondary colour",
     type: "color",
@@ -34,6 +36,6 @@ const colorFields = [
       disableAlpha: true
     },
     hidden: ({ parent }) => parent?.colorPalette !== "custom"
-  }
+  })
 ];
 export default colorFields;

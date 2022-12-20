@@ -1,19 +1,20 @@
 // import client from "../client";
 import colorFields from "../fields/colors";
 import descriptionField from "../fields/description";
+import { defineField, defineType } from "sanity";
 
-const PostSchema = {
+export default defineType({
   name: "post",
   title: "Post",
   type: "document",
   fields: [
-    {
+    defineField({
       name: "title",
       title: "Title",
       type: "string",
       validation: Rule => Rule.required()
-    },
-    {
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       description: "This will appear in the page's URL",
@@ -23,27 +24,27 @@ const PostSchema = {
         maxLength: 96
       },
       validation: Rule => Rule.required()
-    },
-    {
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "reference",
       to: { type: "author" }
-    },
-    {
+    }),
+    defineField({
       name: "publishedAt",
       title: "Published at",
       type: "datetime"
-    },
-    {
+    }),
+    defineField({
       name: "categories",
       title: "Categories",
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
       validation: Rule => Rule.unique()
-    },
+    }),
     ...colorFields,
-    {
+    defineField({
       name: "image",
       title: "Main image",
       type: "image",
@@ -51,24 +52,24 @@ const PostSchema = {
         hotspot: true
       },
       fields: [
-        {
+        defineField({
           title: "Alternative Text",
           description: "A short description of the photo (for screen readers)",
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-        }
+        })
       ]
-    },
-    {
+    }),
+    defineField({
       ...descriptionField,
       description: "Used when linking to this post from another page and also for search engines"
-    },
-    {
+    }),
+    defineField({
       name: "body",
       title: "Body",
       type: "blockContent"
-    }
+    })
   ],
 
   // TODO: migrate to Initial Value Templates: https://www.sanity.io/docs/initial-value-templates
@@ -99,5 +100,4 @@ const PostSchema = {
       });
     }
   }
-};
-export default PostSchema;
+});

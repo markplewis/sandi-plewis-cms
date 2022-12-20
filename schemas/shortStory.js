@@ -1,19 +1,20 @@
 // import client from "../client";
 import colorFields from "../fields/colors";
 import descriptionField from "../fields/description";
+import { defineField, defineType } from "sanity";
 
-const ShortStorySchema = {
+export default defineType({
   name: "shortStory",
   title: "Short story",
   type: "document",
   fields: [
-    {
+    defineField({
       name: "title",
       title: "Title",
       type: "string",
       validation: Rule => Rule.required()
-    },
-    {
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       description: "This will appear in the page's URL",
@@ -23,20 +24,20 @@ const ShortStorySchema = {
         maxLength: 96
       },
       validation: Rule => Rule.required()
-    },
-    {
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "reference",
       to: { type: "author" }
-    },
-    {
+    }),
+    defineField({
       name: "publishedAt",
       title: "Published at",
       type: "datetime"
-    },
+    }),
     ...colorFields,
-    {
+    defineField({
       name: "image",
       title: "Main image",
       type: "image",
@@ -44,32 +45,32 @@ const ShortStorySchema = {
         hotspot: true
       },
       fields: [
-        {
+        defineField({
           title: "Alternative Text",
           description: "A short description of the photo (for screen readers)",
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-        }
+        })
       ]
-    },
-    {
+    }),
+    defineField({
       name: "overview",
       title: "Overview",
       description: "Brief overview that will appear at the top of the page",
       type: "blockContent"
-    },
-    {
+    }),
+    defineField({
       name: "body",
       title: "Body",
       description: "Detailed information about the short story",
       type: "blockContent"
-    },
-    {
+    }),
+    defineField({
       ...descriptionField,
       description:
         "Used when linking to this short story from other pages and also for search engines"
-    }
+    })
   ],
 
   // TODO: migrate to Initial Value Templates: https://www.sanity.io/docs/initial-value-templates
@@ -97,5 +98,4 @@ const ShortStorySchema = {
       });
     }
   }
-};
-export default ShortStorySchema;
+});

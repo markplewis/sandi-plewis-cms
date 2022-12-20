@@ -1,19 +1,20 @@
 // import client from "../client";
 import colorFields from "../fields/colors";
 import descriptionField from "../fields/description";
+import { defineField, defineType } from "sanity";
 
-const NovelSchema = {
+export default defineType({
   name: "novel",
   title: "Novel",
   type: "document",
   fields: [
-    {
+    defineField({
       name: "title",
       title: "Title",
       type: "string",
       validation: Rule => Rule.required()
-    },
-    {
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       description: "This will appear in the page's URL",
@@ -23,20 +24,20 @@ const NovelSchema = {
         maxLength: 96
       },
       validation: Rule => Rule.required()
-    },
-    {
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "reference",
       to: { type: "author" }
-    },
-    {
+    }),
+    defineField({
       name: "publishedAt",
       title: "Published at",
       type: "datetime"
-    },
+    }),
     ...colorFields,
-    {
+    defineField({
       name: "image",
       title: "Main image",
       type: "image",
@@ -44,23 +45,23 @@ const NovelSchema = {
         hotspot: true
       },
       fields: [
-        {
+        defineField({
           title: "Alternative Text",
           description: "A short description of the photo (for screen readers)",
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-        }
-        // {
+        })
+        // defineField({
         //   title: "Caption",
         //   description: "An optional caption to display alongside the photo",
         //   name: "caption",
         //   type: "text",
         //   rows: 3
-        // }
+        // })
       ]
-    },
-    // {
+    }),
+    // defineField({
     //   name: "images",
     //   title: "Images",
     //   type: "array",
@@ -76,56 +77,56 @@ const NovelSchema = {
     //         hotspot: true
     //       },
     //       fields: [
-    //         {
+    //         defineField({
     //           title: "Alternative Text",
     //           description: "A short description of the photo (for screen readers)",
     //           name: "alt",
     //           type: "string",
     //           validation: Rule => Rule.required()
-    //         },
-    //         {
+    //         }),
+    //         defineField({
     //           title: "Caption",
     //           description: "An optional caption to display alongside the photo",
     //           name: "caption",
     //           type: "text",
     //           rows: 3
-    //         },
-    //         {
+    //         }),
+    //         defineField({
     //           title: "Link URL",
     //           description: "URL of the page this image should link to",
     //           name: "url",
     //           type: "url"
-    //         }
+    //         })
     //       ]
     //     }
     //   ]
-    // },
+    // }),
 
     // See: https://www.sanity.io/docs/block-type
-    // {
+    // defineField({
     //   name: "overview",
     //   title: "Home page overview",
     //   description: "A brief overview that will appear when this novel is featured on the home page",
     //   type: "array",
     //   of: [{ type: "block" }]
-    // },
-    {
+    // }),
+    defineField({
       name: "overview",
       title: "Overview",
       description:
         "Brief overview that will appear at the top of the page and also on the home page when this novel is featured",
       type: "blockContent"
-    },
-    {
+    }),
+    defineField({
       name: "body",
       title: "Body",
       description: "The novel's synopsis, etc.",
       type: "blockContent"
-    },
-    {
+    }),
+    defineField({
       ...descriptionField,
       description: "Used when linking to this novel from other pages and also for search engines"
-    }
+    })
   ],
 
   // TODO: migrate to Initial Value Templates: https://www.sanity.io/docs/initial-value-templates
@@ -153,5 +154,4 @@ const NovelSchema = {
       });
     }
   }
-};
-export default NovelSchema;
+});

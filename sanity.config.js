@@ -1,5 +1,6 @@
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
+// https://www.sanity.io/docs/the-vision-plugin
 import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./schemas";
 import { structure, defaultDocumentNode } from "./structure";
@@ -30,6 +31,7 @@ export default defineConfig({
     colorInput(),
     unsplashImageAsset()
   ],
+  // https://www.sanity.io/docs/schema-types
   schema: {
     types: schemaTypes
   }

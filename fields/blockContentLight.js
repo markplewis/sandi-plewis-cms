@@ -1,7 +1,8 @@
 import { LinkIcon } from "@sanity/icons";
+import { defineArrayMember, defineField } from "sanity";
 
 const blockContentLightFields = [
-  {
+  defineArrayMember({
     title: "Block",
     type: "block",
     styles: [{ title: "Normal", value: "normal" }],
@@ -22,11 +23,11 @@ const blockContentLightFields = [
           name: "link",
           type: "object",
           fields: [
-            {
+            defineField({
               title: "URL",
               name: "href",
               type: "url"
-            }
+            })
           ]
         },
         {
@@ -37,15 +38,15 @@ const blockContentLightFields = [
             icon: LinkIcon
           },
           fields: [
-            {
+            defineField({
               name: "reference",
               type: "reference",
               to: [{ type: "post" }, { type: "novel" }, { type: "shortStory" }]
-            }
+            })
           ]
         }
       ]
     }
-  }
+  })
 ];
 export default blockContentLightFields;

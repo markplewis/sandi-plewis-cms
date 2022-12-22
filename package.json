@@ -7,36 +7,30 @@
   "author": "Mark Plewis <mplewis1@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/markplewis/sandiplewis-cms.git"
+    "url": "https://github.com/markplewis/sandiplewis-cms.git"
   },
   "license": "UNLICENSED",
   "main": "package.json",
   "keywords": [
     "sanity"
   ],
-  "prettier": {
-    "arrowParens": "avoid",
-    "bracketSameLine": true,
-    "jsxSingleQuote": false,
-    "printWidth": 100,
-    "semi": true,
-    "singleQuote": false,
-    "tabWidth": 2,
-    "trailingComma": "none"
-  },
   "scriptsComments": {
     "dev": "Starts a development server for the Sanity Studio",
     "start": "Starts a local web server for previewing production build",
     "build": "Builds the current Sanity configuration to a static bundle",
     "deploy": "Deploys a statically built Sanity studio",
-    "debug": "Gathers information on Sanity environment"
+    "debug": "Gathers information on Sanity environment",
+    "prettier-check": "Runs Prettier",
+    "check": "Checks for outdated NPM packages"
   },
   "scripts": {
     "dev": "sanity dev",
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "debug": "sanity debug"
+    "debug": "sanity debug",
+    "prettier-check": "prettier --check .",
+    "check": "npx npm-check -s -u"
   },
   "dependencies": {
     "@sanity/color-input": "^3.0.1",
@@ -52,10 +46,10 @@
   "devDependencies": {
     "@sanity/cli": "^3.0.6",
     "@sanity/eslint-config-studio": "^2.0.1",
-    "eslint": "^8.6.0",
+    "eslint": "8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.1",
+    "prettier": "2.8.1",
     "typescript": "^4.0.0"
   }
 }

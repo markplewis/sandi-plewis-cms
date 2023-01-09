@@ -1,6 +1,8 @@
 import { defineField } from "sanity";
 
 const colorFields = [
+  // TODO: customize this form component by adding color swatches to reflect the palette that's
+  // currently selected. See: https://www.sanity.io/docs/component-api
   defineField({
     title: "Colour palette",
     name: "colorPalette",

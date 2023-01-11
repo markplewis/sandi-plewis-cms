@@ -57,9 +57,7 @@ export default defineType({
             title: "Internal link",
             name: "internalLink",
             type: "object",
-            blockEditor: {
-              icon: LinkIcon
-            },
+            icon: LinkIcon,
             fields: [
               defineField({
                 name: "reference",
@@ -72,9 +70,7 @@ export default defineType({
           //   title: "Break",
           //   name: "break",
           //   type: "object",
-          //   blockEditor: {
-          //     icon: RemoveIcon
-          //   },
+          //   icon: RemoveIcon,
           //   fields: [
           //     defineField({
           //       name: "style",

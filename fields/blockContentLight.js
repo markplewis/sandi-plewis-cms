@@ -34,9 +34,7 @@ const blockContentLightFields = [
           title: "Internal link",
           name: "internalLink",
           type: "object",
-          blockEditor: {
-            icon: LinkIcon
-          },
+          icon: LinkIcon,
           fields: [
             defineField({
               name: "reference",

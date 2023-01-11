@@ -1,4 +1,4 @@
-import colorFields from "../fields/colors";
+import { colorPaletteField, primaryColorField, secondaryColorField } from "../fields/colors";
 import descriptionField from "../fields/description";
 import { defineField, defineType } from "sanity";
 
@@ -39,7 +39,6 @@ export default defineType({
       title: "Published at",
       type: "datetime"
     }),
-    ...colorFields,
     defineField({
       name: "image",
       title: "Main image",
@@ -54,7 +53,8 @@ export default defineType({
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-        })
+        }),
+        colorPaletteField
         // defineField({
         //   title: "Caption",
         //   description: "An optional caption to display alongside the photo",
@@ -64,6 +64,8 @@ export default defineType({
         // })
       ]
     }),
+    primaryColorField,
+    secondaryColorField,
     // defineField({
     //   name: "images",
     //   title: "Images",

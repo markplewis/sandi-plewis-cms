@@ -1,4 +1,4 @@
-import colorFields from "../fields/colors";
+import { colorPaletteField, primaryColorField, secondaryColorField } from "../fields/colors";
 import descriptionField from "../fields/description";
 import { defineField, defineType } from "sanity";
 
@@ -42,7 +42,6 @@ export default defineType({
       of: [{ type: "reference", to: { type: "category" } }],
       validation: Rule => Rule.unique()
     }),
-    ...colorFields,
     defineField({
       name: "image",
       title: "Main image",
@@ -57,9 +56,12 @@ export default defineType({
           name: "alt",
           type: "string",
           validation: Rule => Rule.required()
-        })
+        }),
+        colorPaletteField
       ]
     }),
+    primaryColorField,
+    secondaryColorField,
     defineField({
       ...descriptionField,
       description: "Used when linking to this post from another page and also for search engines"

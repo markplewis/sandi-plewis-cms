@@ -1,5 +1,5 @@
 import blockContentLightFields from "../fields/blockContentLight";
-import colorFields from "../fields/colors";
+import { colorPaletteField, primaryColorField, secondaryColorField } from "../fields/colors";
 import descriptionField from "../fields/description";
 import { defineField, defineType } from "sanity";
 
@@ -25,15 +25,17 @@ export default defineType({
       },
       validation: Rule => Rule.required()
     }),
-    ...colorFields,
     defineField({
       name: "image",
       title: "Image",
       type: "image",
       options: {
         hotspot: true
-      }
+      },
+      fields: [colorPaletteField]
     }),
+    primaryColorField,
+    secondaryColorField,
     defineField({
       name: "shortBiography",
       title: "Short biography",

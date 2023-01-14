@@ -15,13 +15,14 @@
     "sanity"
   ],
   "scriptsComments": {
-    "dev": "Starts a development server for the Sanity Studio",
-    "start": "Starts a local web server for previewing production build",
-    "build": "Builds the current Sanity configuration to a static bundle",
-    "deploy": "Deploys a statically built Sanity studio",
-    "debug": "Gathers information on Sanity environment",
-    "prettier-check": "Runs Prettier",
-    "check": "Checks for outdated NPM packages"
+    "dev": "Starts a development server for the Sanity Studio.",
+    "start": "Starts a local web server for previewing production build.",
+    "build": "Builds the current Sanity configuration to a static bundle.",
+    "deploy": "Deploys a statically built Sanity studio.",
+    "debug": "Gathers information on Sanity environment.",
+    "lint": "Runs ESLint on all files in the speficied directories.",
+    "prettier-check": "Runs Prettier.",
+    "check": "Checks for outdated NPM packages."
   },
   "scripts": {
     "dev": "sanity dev",
@@ -29,6 +30,7 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "debug": "sanity debug",
+    "lint": "eslint fields/** lib/** schemas/** sanity.cli.js sanity.config.jsx structure.js",
     "prettier-check": "prettier --check .",
     "check": "npx npm-check -s -u"
   },

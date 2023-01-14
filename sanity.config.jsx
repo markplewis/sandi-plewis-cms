@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { defineConfig, useFormValue } from "sanity";
 import { deskTool } from "sanity/desk";
@@ -49,6 +50,10 @@ const ListWithSwatch = props => {
       ) : null}
     </Inline>
   );
+};
+ListWithSwatch.propTypes = {
+  value: PropTypes.object,
+  renderDefault: PropTypes.func
 };
 
 export default defineConfig({

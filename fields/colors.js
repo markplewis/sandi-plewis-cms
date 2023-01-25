@@ -26,7 +26,10 @@ export const primaryColorField = defineField({
   options: {
     disableAlpha: true
   },
-  hidden: ({ parent }) => parent?.image?.colorPalette !== "custom"
+  // See: https://github.com/sanity-io/color-input/issues/12
+  // initialValue: "#FF3333",
+  // hidden: ({ parent }) => parent?.image?.colorPalette !== "custom"
+  hidden: ({ document }) => document?.image?.colorPalette !== "custom"
 });
 
 export const secondaryColorField = defineField({
@@ -36,5 +39,8 @@ export const secondaryColorField = defineField({
   options: {
     disableAlpha: true
   },
-  hidden: ({ parent }) => parent?.image?.colorPalette !== "custom"
+  // See: https://github.com/sanity-io/color-input/issues/12
+  // initialValue: "#990000",
+  // hidden: ({ parent }) => parent?.image?.colorPalette !== "custom"
+  hidden: ({ document }) => document?.image?.colorPalette !== "custom"
 });

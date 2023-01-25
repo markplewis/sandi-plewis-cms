@@ -57,11 +57,13 @@ export default defineType({
           type: "string",
           validation: Rule => Rule.required()
         }),
+        primaryColorField,
+        secondaryColorField,
         colorPaletteField
       ]
     }),
-    primaryColorField,
-    secondaryColorField,
+    // primaryColorField,
+    // secondaryColorField,
     defineField({
       ...descriptionField,
       description: "Used when linking to this post from another page and also for search engines"

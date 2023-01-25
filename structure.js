@@ -1,8 +1,8 @@
 // Icons:
 // https://www.sanity.io/docs/icons-for-data-types
 // https://icons.sanity.build/all
+
 import {
-  // EyeOpenIcon,
   EditIcon,
   HomeIcon,
   DocumentTextIcon,
@@ -11,9 +11,6 @@ import {
   StarIcon,
   UserIcon
 } from "@sanity/icons";
-
-// TODO: figure out how to implement page previews
-// See: https://github.com/sanity-io/nextjs-blog-cms-sanity-v3/blob/main/sanity.config.ts
 
 function splitPaneViews(S, listItem, title, schema, Icon) {
   return listItem
@@ -27,11 +24,7 @@ function splitPaneViews(S, listItem, title, schema, Icon) {
           S.document()
             .documentId(documentId)
             .schemaType(schema)
-            .views([
-              S.view.form().icon(EditIcon)
-              // TODO: figure out how to implement page previews
-              // S.view.component(IframePreview).icon(EyeOpenIcon).title("Web Preview")
-            ])
+            .views([S.view.form().icon(EditIcon)])
         )
     );
 }
@@ -51,10 +44,7 @@ export const structure = (S, context) =>
           S.document()
             .documentId("homePage")
             .schemaType("homePage")
-            .views([
-              S.view.form().icon(EditIcon)
-              // S.view.component(IframePreview).icon(EyeOpenIcon).title("Web Preview")
-            ])
+            .views([S.view.form().icon(EditIcon)])
         ),
       ...S.documentTypeListItems()
         .filter(listItem => {
@@ -81,8 +71,5 @@ export const structure = (S, context) =>
     ]);
 
 export const defaultDocumentNode = S => {
-  return S.document().views([
-    S.view.form()
-    // S.view.component(JsonView).title('JSON')
-  ]);
+  return S.document().views([S.view.form()]);
 };

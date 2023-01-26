@@ -30,7 +30,7 @@ function getPageColors({ swatchName, palette, primaryColor, secondaryColor }) {
   const swatchColor = palette?.[swatchName]?.background;
 
   if (!swatchColor && !primaryColor?.hex && !secondaryColor?.hex) {
-    console.log("No colors to work with", { swatchColor, primaryColor, secondaryColor });
+    // console.log("No colors to work with", { swatchColor, primaryColor, secondaryColor });
     return;
   }
   const { primary, secondary } = getDocumentColors({
@@ -90,12 +90,7 @@ function usePageColors(props = {}) {
   return pageColors;
 }
 
-// TODO: figure out why this error occurs when creating a new post and uploading a new photo:
-// Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
-//     at ListWithSwatch (http://localhost:3333/sanity.config.jsx:106:5)
-
 const ListWithSwatch = props => {
-  // const { changed, value, renderDefault } = props;
   const { value, renderDefault } = props;
   const image = useFormValue(["image"])?.asset?._ref;
 
@@ -105,17 +100,7 @@ const ListWithSwatch = props => {
     secondaryColor: value?.secondaryColor,
     image
   });
-  // const pageColors = usePageColors(
-  //   changed
-  //     ? {
-  //         colorPalette: value?.colorPalette ?? "vibrant",
-  //         primaryColor: value?.primaryColor,
-  //         secondaryColor: value?.secondaryColor,
-  //         image
-  //       }
-  //     : {}
-  // );
-  useEffect(() => pageColors && console.log("onChange pageColors:", pageColors), [pageColors]);
+  // useEffect(() => pageColors && console.log("onChange pageColors:", pageColors), [pageColors]);
 
   return (
     <Inline space={3}>
@@ -181,10 +166,9 @@ export function createAsyncPublishAction(originalAction, context) {
         const { colorPalette, primaryColor, secondaryColor, palette } = doc?.image ?? {};
         const swatchName = colorPalette;
         const pageColors = getPageColors({ swatchName, palette, primaryColor, secondaryColor });
-        console.log("onPublish pageColors:", pageColors);
+        // console.log("onPublish pageColors:", pageColors);
 
-        // TODO: save page colors instead of changing publish date
-        patch.execute([{ set: { publishedAt: new Date().toISOString() } }]);
+        patch.execute([{ set: { pageColors } }]);
         publish.execute();
         props.onComplete();
       }

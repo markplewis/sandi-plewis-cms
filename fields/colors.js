@@ -1,5 +1,32 @@
 import { defineField } from "sanity";
 
+export const pageColorsField = defineField({
+  title: "Page colors",
+  name: "pageColors",
+  type: "object",
+  hidden: true,
+  fields: [
+    {
+      name: "primary",
+      type: "object",
+      fields: [
+        { name: "r", type: "number" },
+        { name: "g", type: "number" },
+        { name: "b", type: "number" }
+      ]
+    },
+    {
+      name: "secondary",
+      type: "object",
+      fields: [
+        { name: "r", type: "number" },
+        { name: "g", type: "number" },
+        { name: "b", type: "number" }
+      ]
+    }
+  ]
+});
+
 export const colorPaletteField = defineField({
   title: "Colour palette",
   name: "colorPalette",

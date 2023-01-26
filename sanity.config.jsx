@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-import { defineConfig, useFormValue } from "sanity";
+import React, { useEffect, useMemo, useState } from "react";
+import { defineConfig, useDocumentOperation, useFormValue } from "sanity";
 import { deskTool } from "sanity/desk";
 
 // https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash
@@ -26,13 +26,53 @@ const projectId = import.meta.env.SANITY_STUDIO_PROJECT_ID;
 const dataset = import.meta.env.SANITY_STUDIO_DATASET;
 const apiVersion = import.meta.env.SANITY_STUDIO_VERSION;
 
-const defaultSwatchColor = "#fff";
+function getPageColors({ swatchName, palette, primaryColor, secondaryColor }) {
+  const swatchColor = palette?.[swatchName]?.background;
 
-function usePageColors({ colorPalette, primaryColor, secondaryColor, image }) {
+  if (!swatchColor && !primaryColor?.hex && !secondaryColor?.hex) {
+    console.log("No colors to work with", { swatchColor, primaryColor, secondaryColor });
+    return;
+  }
+  const { primary, secondary } = getDocumentColors({
+    swatchName,
+    swatchColor,
+    primaryColor: primaryColor?.hex,
+    secondaryColor: secondaryColor?.hex
+  });
+
+  // console.log("pageColors", {
+  //   isSanityPalette,
+  //   // hsl: {
+  //   //   primary: `hsl(${primary.hsl.h} ${primary.hsl.s}% ${primary.hsl.l}%)`,
+  //   //   secondary: `hsl(${secondary.hsl.h} ${secondary.hsl.s}% ${secondary.hsl.l}%)`
+  //   // },
+  //   // rgb: {
+  //   primary: `rgb(${primary.srgb.r * 100}% ${primary.srgb.g * 100}% ${primary.srgb.b * 100}%)`,
+  //   secondary: `rgb(${secondary.srgb.r * 100}% ${secondary.srgb.g * 100}% ${
+  //     secondary.srgb.b * 100
+  //   }%)`
+  //   // }
+  // });
+
+  return {
+    primary: {
+      // Convert colorjs.io RGB values into percentages
+      r: primary.srgb.r * 100,
+      g: primary.srgb.g * 100,
+      b: primary.srgb.b * 100
+    },
+    secondary: {
+      r: secondary.srgb.r * 100,
+      g: secondary.srgb.g * 100,
+      b: secondary.srgb.b * 100
+    }
+  };
+}
+
+function usePageColors(props = {}) {
+  const { colorPalette = "", primaryColor = {}, secondaryColor = {}, image = "" } = props;
   const [palette, setPalette] = useState();
   const swatchName = colorPalette; // Selected by user
-  const [swatchColor, setSwatchColor] = useState();
-  const [pageColors, setPageColors] = useState();
   const client = useSanityClient();
 
   useEffect(() => {
@@ -43,67 +83,43 @@ function usePageColors({ colorPalette, primaryColor, secondaryColor, image }) {
     }
   }, [client, image]);
 
-  useEffect(() => {
-    if (palette && swatchName) {
-      setSwatchColor(palette[swatchName]?.background || defaultSwatchColor);
-    }
-  }, [palette, swatchName]);
-
-  useEffect(() => {
-    if (!swatchColor || (!primaryColor?.hex && secondaryColor?.hex)) {
-      return;
-    }
-    const { primary, secondary } = getDocumentColors({
-      swatchName,
-      swatchColor,
-      primaryColor: primaryColor?.hex,
-      secondaryColor: secondaryColor?.hex
-    });
-
-    // console.log("pageColors", {
-    //   isSanityPalette,
-    //   // hsl: {
-    //   //   primary: `hsl(${primary.hsl.h} ${primary.hsl.s}% ${primary.hsl.l}%)`,
-    //   //   secondary: `hsl(${secondary.hsl.h} ${secondary.hsl.s}% ${secondary.hsl.l}%)`
-    //   // },
-    //   // rgb: {
-    //   primary: `rgb(${primary.srgb.r * 100}% ${primary.srgb.g * 100}% ${primary.srgb.b * 100}%)`,
-    //   secondary: `rgb(${secondary.srgb.r * 100}% ${secondary.srgb.g * 100}% ${
-    //     secondary.srgb.b * 100
-    //   }%)`
-    //   // }
-    // });
-
-    setPageColors({
-      primary: {
-        // Convert colorjs.io RGB values into percentages
-        r: primary.srgb.r * 100,
-        g: primary.srgb.g * 100,
-        b: primary.srgb.b * 100
-      },
-      secondary: {
-        r: secondary.srgb.r * 100,
-        g: secondary.srgb.g * 100,
-        b: secondary.srgb.b * 100
-      }
-    });
-  }, [primaryColor?.hex, secondaryColor?.hex, swatchColor, swatchName]);
+  const pageColors = useMemo(() => {
+    return getPageColors({ swatchName, palette, primaryColor, secondaryColor });
+  }, [palette, primaryColor, secondaryColor, swatchName]);
 
   return pageColors;
 }
 
+// TODO: figure out why this error occurs when creating a new post and uploading a new photo:
+// Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+//     at ListWithSwatch (http://localhost:3333/sanity.config.jsx:106:5)
+
 const ListWithSwatch = props => {
+  // const { changed, value, renderDefault } = props;
   const { value, renderDefault } = props;
+  const image = useFormValue(["image"])?.asset?._ref;
+
   const pageColors = usePageColors({
     colorPalette: value?.colorPalette ?? "vibrant",
     primaryColor: value?.primaryColor,
     secondaryColor: value?.secondaryColor,
-    image: useFormValue(["image"])?.asset?._ref
+    image
   });
+  // const pageColors = usePageColors(
+  //   changed
+  //     ? {
+  //         colorPalette: value?.colorPalette ?? "vibrant",
+  //         primaryColor: value?.primaryColor,
+  //         secondaryColor: value?.secondaryColor,
+  //         image
+  //       }
+  //     : {}
+  // );
+  useEffect(() => pageColors && console.log("onChange pageColors:", pageColors), [pageColors]);
+
   return (
     <Inline space={3}>
       {renderDefault(props)}
-      {/* {value?.colorPalette !== "custom" && pageColors ? ( */}
       {pageColors ? (
         <>
           <Avatar
@@ -130,94 +146,49 @@ ListWithSwatch.propTypes = {
   renderDefault: PropTypes.func
 };
 
-function createAsyncPublishAction(originalAction, context) {
-  console.log(`createAsyncPublishAction: ${originalAction.action}`);
+export function createAsyncPublishAction(originalAction, context) {
   const client = context.getClient({ apiVersion });
-  // console.log("context", context);
-
-  client.fetch(`*[_id == $id][0]`, { id: context.documentId }).then(doc => {
-    console.log(doc);
-  });
 
   const AsyncPublishAction = props => {
-    const originalResult = originalAction(props);
-    // console.log("originalResult", originalResult);
+    const { patch, publish } = useDocumentOperation(props.id, props.type);
+    const [isPublishing, setIsPublishing] = useState(false);
 
-    // const pageColors = usePageColors({
-    //   colorPalette: value?.colorPalette ?? "vibrant",
-    //   primaryColor: value?.primaryColor,
-    //   secondaryColor: value?.secondaryColor,
-    //   image: useFormValue(["image"])?.asset?._ref
-    // });
-    return originalResult;
+    useEffect(() => {
+      // if the isPublishing state was set to true and the draft has changed
+      // to become `null` the document has been published
+      if (isPublishing && !props.draft) {
+        setIsPublishing(false);
+      }
+    }, [isPublishing, props.draft]);
 
-    // return {
-    //   ...originalResult,
-    //   onHandle: async () => {
-    //     await client
-    //       .patch(context.documentId)
-    //       // Data model must match https://www.sanity.io/plugins/color-input
-    //       .set({
-    //         primaryColor: {
-    //           _type: "color",
-    //           hex: primaryColor.hex,
-    //           alpha: 1,
-    //           hsl: {
-    //             _type: "hslaColor",
-    //             h: primaryColor.hsl.h,
-    //             s: primaryColor.hsl.s,
-    //             l: primaryColor.hsl.l,
-    //             a: 1
-    //           },
-    //           hsv: {
-    //             _type: "hsvaColor",
-    //             h: primaryColor.hsv.h,
-    //             s: primaryColor.hsv.s,
-    //             v: primaryColor.hsv.v,
-    //             a: 1
-    //           },
-    //           rgb: {
-    //             _type: "rgbaColor",
-    //             r: primaryColor.rgb.r,
-    //             g: primaryColor.rgb.g,
-    //             b: primaryColor.rgb.b,
-    //             a: 1
-    //           }
-    //         },
-    //         secondaryColor: {
-    //           _type: "color",
-    //           hex: secondaryColor.hex,
-    //           alpha: 1,
-    //           hsl: {
-    //             _type: "hslaColor",
-    //             h: secondaryColor.hsl.h,
-    //             s: secondaryColor.hsl.s,
-    //             l: secondaryColor.hsl.l,
-    //             a: 1
-    //           },
-    //           hsv: {
-    //             _type: "hsvaColor",
-    //             h: secondaryColor.hsv.h,
-    //             s: secondaryColor.hsv.s,
-    //             v: secondaryColor.hsv.v,
-    //             a: 1
-    //           },
-    //           rgb: {
-    //             _type: "rgbaColor",
-    //             r: secondaryColor.rgb.r,
-    //             g: secondaryColor.rgb.g,
-    //             b: secondaryColor.rgb.b,
-    //             a: 1
-    //           }
-    //         }
-    //       })
-    //       .commit();
-    //     await client
-    //       .fetch(`*[_id == '${context.documentId}'][0]{ primaryColor, secondaryColor }`)
-    //       .then(res => console.log(res));
-    //     originalResult.onHandle();
-    //   }
-    // };
+    return {
+      disabled: publish.disabled,
+      label: isPublishing ? "Publishing…" : "Publish",
+      onHandle: async () => {
+        setIsPublishing(true);
+
+        const query = `
+          *[_id == $id][0] {
+            "image": image {
+              colorPalette,
+              primaryColor,
+              secondaryColor,
+              ...asset->{ "palette": metadata.palette }
+            }
+          }
+        `;
+        const doc = await client.fetch(query, { id: context.documentId });
+        const { colorPalette, primaryColor, secondaryColor, palette } = doc?.image ?? {};
+        const swatchName = colorPalette;
+        const pageColors = getPageColors({ swatchName, palette, primaryColor, secondaryColor });
+        console.log("onPublish pageColors:", pageColors);
+
+        // TODO: save page colors instead of changing publish date
+        patch.execute([{ set: { publishedAt: new Date().toISOString() } }]);
+        publish.execute();
+        props.onComplete();
+      }
+    };
   };
   return AsyncPublishAction;
 }
@@ -254,11 +225,14 @@ export default defineConfig({
     }
   },
   document: {
-    actions: (prev, context) =>
-      prev.map(originalAction =>
-        originalAction.action === "publish"
-          ? createAsyncPublishAction(originalAction, context)
-          : originalAction
-      )
+    actions: (prev, context) => {
+      return context.schemaType === "post"
+        ? prev.map(originalAction =>
+            originalAction.action === "publish"
+              ? createAsyncPublishAction(originalAction, context)
+              : originalAction
+          )
+        : prev;
+    }
   }
 });

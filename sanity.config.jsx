@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useMemo, useState } from "react";
-import { defineConfig, useDocumentOperation, useFormValue } from "sanity";
+import { defineConfig, useFormValue } from "sanity"; // useDocumentOperation
 import { deskTool } from "sanity/desk";
 
 // https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash
@@ -24,9 +24,9 @@ import { getDocumentColors } from "./utils/color";
 
 const projectId = import.meta.env.SANITY_STUDIO_PROJECT_ID;
 const dataset = import.meta.env.SANITY_STUDIO_DATASET;
-const apiVersion = import.meta.env.SANITY_STUDIO_VERSION;
+// const apiVersion = import.meta.env.SANITY_STUDIO_VERSION;
 
-function getPageColors({ swatchName, palette, primaryColor, secondaryColor }) {
+function getPageColors({ swatchName = "", palette, primaryColor, secondaryColor }) {
   const swatchColor = palette?.[swatchName]?.background;
 
   if (!swatchColor && !primaryColor?.hex && !secondaryColor?.hex) {
@@ -100,13 +100,20 @@ const ListWithSwatch = props => {
     secondaryColor: value?.secondaryColor,
     image
   });
-  // useEffect(() => pageColors && console.log("onChange pageColors:", pageColors), [pageColors]);
+
+  value.pageColors = pageColors;
 
   return (
     <Inline space={3}>
       {renderDefault(props)}
+
       {pageColors ? (
-        <>
+        <div style={{ display: "inline-block" }}>
+          <div>
+            <p>{pageColors.primary.r}%</p>
+            <p>{pageColors.primary.g}%</p>
+            <p>{pageColors.primary.b}%</p>
+          </div>{" "}
           <Avatar
             style={{
               // colorjs.io RGB values should be treated as percentages, not numbers
@@ -121,7 +128,7 @@ const ListWithSwatch = props => {
               display: "inline-block"
             }}
           />
-        </>
+        </div>
       ) : null}
     </Inline>
   );
@@ -131,51 +138,59 @@ ListWithSwatch.propTypes = {
   renderDefault: PropTypes.func
 };
 
-export function createAsyncPublishAction(originalAction, context) {
-  const client = context.getClient({ apiVersion });
+// // https://www.sanity.io/docs/document-actions#362c883e4421
+// export function createAsyncPublishAction(originalAction, context) {
+//   const client = context.getClient({ apiVersion });
 
-  const AsyncPublishAction = props => {
-    const { patch, publish } = useDocumentOperation(props.id, props.type);
-    const [isPublishing, setIsPublishing] = useState(false);
+//   const AsyncPublishAction = props => {
+//     const { patch, publish } = useDocumentOperation(props.id, props.type);
+//     const [isPublishing, setIsPublishing] = useState(false);
+//     // const originalResult = originalAction(props);
 
-    useEffect(() => {
-      // if the isPublishing state was set to true and the draft has changed
-      // to become `null` the document has been published
-      if (isPublishing && !props.draft) {
-        setIsPublishing(false);
-      }
-    }, [isPublishing, props.draft]);
+//     useEffect(() => {
+//       // if the isPublishing state was set to true and the draft has changed
+//       // to become `null` the document has been published
+//       if (isPublishing && !props.draft) {
+//         setIsPublishing(false);
+//       }
+//     }, [isPublishing, props.draft]);
 
-    return {
-      disabled: publish.disabled,
-      label: isPublishing ? "Publishing…" : "Publish",
-      onHandle: async () => {
-        setIsPublishing(true);
+//     return {
+//       disabled: publish.disabled,
+//       label: isPublishing ? "Publishing…" : "Publish",
+//       onHandle: async () => {
+//         setIsPublishing(true);
 
-        const query = `
-          *[_id == $id][0] {
-            "image": image {
-              colorPalette,
-              primaryColor,
-              secondaryColor,
-              ...asset->{ "palette": metadata.palette }
-            }
-          }
-        `;
-        const doc = await client.fetch(query, { id: context.documentId });
-        const { colorPalette, primaryColor, secondaryColor, palette } = doc?.image ?? {};
-        const swatchName = colorPalette;
-        const pageColors = getPageColors({ swatchName, palette, primaryColor, secondaryColor });
-        // console.log("onPublish pageColors:", pageColors);
+//         // TODO: it seems like this grabbing the stale values from the saved document instead of the
+//         // new values from the current draft. Do I need to somehow `useFormValue()` here instead?
+//         // This syncs the `pageColors` field with the source colour fields, but it's always one
+//         // edit/save behind.
+//         const query = `
+//           *[_id == $id][0] {
+//             "image": image {
+//               colorPalette,
+//               primaryColor,
+//               secondaryColor,
+//               ...asset->{ "palette": metadata.palette }
+//             }
+//           }
+//         `;
+//         const doc = await client.fetch(query, { id: context.documentId });
+//         const { colorPalette, primaryColor, secondaryColor, palette } = doc?.image ?? {};
+//         const swatchName = colorPalette;
+//         const pageColors = getPageColors({ swatchName, palette, primaryColor, secondaryColor });
 
-        patch.execute([{ set: { pageColors } }]);
-        publish.execute();
-        props.onComplete();
-      }
-    };
-  };
-  return AsyncPublishAction;
-}
+//         patch.execute([{ set: { pageColors } }]);
+//         //  patch.execute([{ set: { "image.pageColors": pageColors } }]);
+//         publish.execute();
+//         console.log("Publish pageColors:", pageColors);
+//         props.onComplete();
+//         // originalResult.onHandle();
+//       }
+//     };
+//   };
+//   return AsyncPublishAction;
+// }
 
 export default defineConfig({
   name: "default",
@@ -207,16 +222,16 @@ export default defineConfig({
           props.renderDefault(props)
         )
     }
-  },
-  document: {
-    actions: (prev, context) => {
-      return context.schemaType === "post"
-        ? prev.map(originalAction =>
-            originalAction.action === "publish"
-              ? createAsyncPublishAction(originalAction, context)
-              : originalAction
-          )
-        : prev;
-    }
   }
+  // document: {
+  //   actions: (prev, context) => {
+  //     return ["author", "novel", "post", "shortStory"].includes(context.schemaType)
+  //       ? prev.map(originalAction =>
+  //           originalAction.action === "publish"
+  //             ? createAsyncPublishAction(originalAction, context)
+  //             : originalAction
+  //         )
+  //       : prev;
+  //   }
+  // }
 });

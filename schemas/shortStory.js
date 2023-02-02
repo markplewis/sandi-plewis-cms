@@ -1,4 +1,9 @@
-import { colorPaletteField, primaryColorField, secondaryColorField } from "../fields/colors";
+import {
+  primaryColorField,
+  secondaryColorField,
+  colorPaletteField,
+  pageColorsField
+} from "../fields/colors";
 import descriptionField from "../fields/description";
 import { defineField, defineType } from "sanity";
 
@@ -50,11 +55,12 @@ export default defineType({
           type: "string",
           validation: Rule => Rule.required()
         }),
-        colorPaletteField
+        primaryColorField,
+        secondaryColorField,
+        colorPaletteField,
+        pageColorsField
       ]
     }),
-    primaryColorField,
-    secondaryColorField,
     defineField({
       name: "overview",
       title: "Overview",

@@ -7,7 +7,7 @@ import { colorParsley } from "colorparsley";
 
 // For dark text on light backgrounds, and the text is 24px or smaller, the text should be #000000
 // See: https://github.com/Myndex/SAPC-APCA/discussions/64
-const black = hexToColor("#000");
+// const black = hexToColor("#000");
 const white = hexToColor("#fff");
 
 function hexToColor(hexColor) {
@@ -48,7 +48,14 @@ function getSaturation(s) {
  * @param {Object} bgColor - HSL color
  * @param {Boolean} darkenBg - Whether to progressively darken the background color or lighten it
  */
-function adjustBackgroundColor(fgColor, bgColor, darkenBg, targetFontSizes, iterations = 0) {
+function adjustBackgroundColor(
+  fgColor,
+  bgColor,
+  darkenBg,
+  targetFontSizes,
+  logPrefix = "",
+  iterations = 0
+) {
   // if (iterations === 0) {
   //   console.log(`Initial: hsl(${bgColor.hsl.h} ${bgColor.hsl.s}% ${bgColor.hsl.l}%)`);
   // }
@@ -89,6 +96,8 @@ function adjustBackgroundColor(fgColor, bgColor, darkenBg, targetFontSizes, iter
 
   if (passedContrastTest || limitReached) {
     // console.log(`Final: hsl(${bgColor.hsl.h} ${bgColor.hsl.s}% ${bgColor.hsl.l}%)`);
+    // console.log(`Final: ${bgColor.rgb.r}, ${bgColor.rgb.g}, ${bgColor.rgb.b}`);
+    // console.log("Final:", { [logPrefix]: bgColor.coords.join(", ") });
 
     // if (limitReached) {
     //   console.warn("Limit reached");
@@ -101,7 +110,14 @@ function adjustBackgroundColor(fgColor, bgColor, darkenBg, targetFontSizes, iter
       limitReached
     };
   }
-  return adjustBackgroundColor(fgColor, bgColor, darkenBg, targetFontSizes, iterationCount);
+  return adjustBackgroundColor(
+    fgColor,
+    bgColor,
+    darkenBg,
+    targetFontSizes,
+    logPrefix,
+    iterationCount
+  );
 }
 
 function adjustColorContrast({ primary, secondary }) {
@@ -117,11 +133,15 @@ function adjustColorContrast({ primary, secondary }) {
       size: 28 // px
     }
   ];
-  // TODO: leave colors as-is when they were manually selected within Sanity? (i.e. do not transform)
-
   // Let's just generate a dark colour 100% of the time and assume the foreground text will be white
-  const whiteOnPrimary = adjustBackgroundColor(white, primary, true, targetFontSizes);
-  const whiteOnSecondary = adjustBackgroundColor(white, secondary, true, targetFontSizes);
+  const whiteOnPrimary = adjustBackgroundColor(white, primary, true, targetFontSizes, "primary");
+  const whiteOnSecondary = adjustBackgroundColor(
+    white,
+    secondary,
+    true,
+    targetFontSizes,
+    "secondary"
+  );
   // const blackOnPrimary = adjustBackgroundColor(black, primary, false, targetFontSizes);
   // const blackOnSecondary = adjustBackgroundColor(black, secondary, false, targetFontSizes);
 
@@ -177,7 +197,7 @@ export function getDocumentColors({
       secondary: hexToColor(secondaryColor)
     };
   }
-  const { primary, secondary } = documentColors;
+  // const { primary, secondary } = documentColors;
 
   // console.log("documentColors", {
   //   isSanityPalette,
@@ -187,12 +207,30 @@ export function getDocumentColors({
   //   black: `hsl(${black.hsl.h} ${black.hsl.s}% ${black.hsl.l}%)`
   // });
 
-  if (isSanityPalette) {
-    return {
-      ...adjustColorContrast(documentColors),
-      isSanityPalette
-    };
-  }
-  return { primary, secondary, isSanityPalette };
-  // return isSanityPalette ? adjustColorContrast(documentColors) : { primary, secondary };
+  // console.log("Before:", {
+  //   primary: documentColors.primary.coords.join(", "),
+  //   secondary: documentColors.secondary.coords.join(", ")
+  // });
+
+  const adjustedColors = adjustColorContrast(documentColors);
+  // const adjustedColors = documentColors;
+
+  // console.log("After:", {
+  //   primary: adjustedColors.primary.coords.join(", "),
+  //   secondary: adjustedColors.secondary.coords.join(", ")
+  // });
+
+  return {
+    ...adjustedColors,
+    isSanityPalette
+  };
+
+  // if (isSanityPalette) {
+  //   return {
+  //     ...adjustColorContrast(documentColors),
+  //     isSanityPalette
+  //   };
+  // }
+  // // Leave colors as-is when they were manually selected within Sanity? (i.e. do not transform)
+  // return { primary, secondary, isSanityPalette };
 }

@@ -1,8 +1,8 @@
 import {
-  colorPaletteField,
-  pageColorsField,
   primaryColorField,
-  secondaryColorField
+  secondaryColorField,
+  colorPaletteField,
+  pageColorsField
 } from "../fields/colors";
 import descriptionField from "../fields/description";
 import { defineField, defineType } from "sanity";
@@ -64,12 +64,10 @@ export default defineType({
         }),
         primaryColorField,
         secondaryColorField,
-        colorPaletteField
+        colorPaletteField,
+        pageColorsField
       ]
     }),
-    pageColorsField,
-    // primaryColorField,
-    // secondaryColorField,
     defineField({
       ...descriptionField,
       description: "Used when linking to this post from another page and also for search engines"

@@ -1,10 +1,5 @@
-import {
-  primaryColorField,
-  secondaryColorField,
-  colorPaletteField,
-  pageColorsField
-} from "../fields/colors";
-import descriptionField from "../fields/description";
+import imageColorFields from "./fields/colors";
+import descriptionField from "./fields/description";
 import { defineField, defineType } from "sanity";
 
 // This is incorrect and doesn't work but I don't want to forget about `getCliClient`:
@@ -59,10 +54,7 @@ export default defineType({
           type: "string",
           validation: Rule => Rule.required()
         }),
-        primaryColorField,
-        secondaryColorField,
-        colorPaletteField,
-        pageColorsField
+        ...imageColorFields
         // defineField({
         //   title: "Caption",
         //   description: "An optional caption to display alongside the photo",

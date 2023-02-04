@@ -1,3 +1,5 @@
+// Intentionally not wrapped in a `defineField()` so that `description` can be overridden
+
 const descriptionField = {
   name: "description",
   title: "Short description",
@@ -6,4 +8,5 @@ const descriptionField = {
   rows: 4,
   validation: Rule => Rule.required()
 };
+
 export default descriptionField;

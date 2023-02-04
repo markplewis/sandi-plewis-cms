@@ -1,11 +1,6 @@
-import blockContentLightFields from "../fields/blockContentLight";
-import {
-  primaryColorField,
-  secondaryColorField,
-  colorPaletteField,
-  pageColorsField
-} from "../fields/colors";
-import descriptionField from "../fields/description";
+import blockContentLightFields from "./fields/blockContentLight";
+import imageColorFields from "./fields/colors";
+import descriptionField from "./fields/description";
 import { defineField, defineType } from "sanity";
 
 export default defineType({
@@ -37,7 +32,7 @@ export default defineType({
       options: {
         hotspot: true
       },
-      fields: [primaryColorField, secondaryColorField, colorPaletteField, pageColorsField]
+      fields: imageColorFields
     }),
     defineField({
       name: "shortBiography",

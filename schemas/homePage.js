@@ -1,4 +1,4 @@
-import descriptionField from "../fields/description";
+import descriptionField from "./fields/description";
 import { defineField, defineType } from "sanity";
 
 // This schema is a "singleton". See:

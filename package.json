@@ -30,7 +30,7 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "debug": "sanity debug",
-    "lint": "eslint fields/** lib/** schemas/** utils/** sanity.cli.js sanity.config.jsx structure.js",
+    "lint": "eslint components/** lib/** schemas/** utils/** sanity.cli.js sanity.config.jsx structure.js",
     "prettier-check": "prettier --check .",
     "check": "npx npm-check -s -u"
   },

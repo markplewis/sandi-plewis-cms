@@ -234,3 +234,31 @@ export function getDocumentColors({
   // // Leave colors as-is when they were manually selected within Sanity? (i.e. do not transform)
   // return { primary, secondary, isSanityPalette };
 }
+
+export function getPageColors({ swatchName = "", palette, primaryColor, secondaryColor }) {
+  const swatchColor = palette?.[swatchName]?.background;
+
+  if (!swatchColor && !primaryColor?.hex && !secondaryColor?.hex) {
+    return;
+  }
+  const { primary, secondary } = getDocumentColors({
+    swatchName,
+    swatchColor,
+    primaryColor: primaryColor?.hex,
+    secondaryColor: secondaryColor?.hex
+  });
+
+  return {
+    primary: {
+      // Convert colorjs.io RGB values into percentages
+      r: primary.srgb.r * 100,
+      g: primary.srgb.g * 100,
+      b: primary.srgb.b * 100
+    },
+    secondary: {
+      r: secondary.srgb.r * 100,
+      g: secondary.srgb.g * 100,
+      b: secondary.srgb.b * 100
+    }
+  };
+}

@@ -47,4 +47,5 @@ const blockContentLightFields = [
     }
   })
 ];
+
 export default blockContentLightFields;

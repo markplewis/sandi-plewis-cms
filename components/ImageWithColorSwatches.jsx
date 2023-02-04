@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useMemo, useState } from "react";
 import { useFormValue } from "sanity";
-import { Avatar, Inline } from "@sanity/ui";
+import { Avatar, Inline } from "@sanity/ui"; // https://www.sanity.io/ui
 import useSanityClient from "../lib/useSanityClient";
 import { getPageColors } from "../utils/color";
 
@@ -26,6 +26,38 @@ function usePageColors(props = {}) {
   return pageColors;
 }
 
+const ColorSwatch = ({ color = {}, first = false }) => {
+  // TODO: keep an eye on the new "Theming API" so we canmaybe  write proper CSS
+  // https://www.sanity.io/docs/migrating-styling-and-branding
+  return (
+    <div
+      style={{ display: "inline-block", position: "relative", marginRight: first ? "-4px" : "0" }}>
+      <Avatar
+        size={1}
+        style={{
+          // colorjs.io RGB values should be treated as percentages, not numbers
+          backgroundColor: `rgb(${color.r}% ${color.g}% ${color.b}%)`
+        }}
+      />
+      <div
+        style={{
+          width: "100%",
+          textAlign: "center",
+          color: "white",
+          position: "absolute",
+          top: "50%"
+        }}>
+        Aa
+      </div>
+    </div>
+  );
+};
+
+ColorSwatch.propTypes = {
+  color: PropTypes.object,
+  first: PropTypes.bool
+};
+
 const ImageWithColorSwatches = props => {
   const { value, renderDefault } = props;
   const image = useFormValue(["image"])?.asset?._ref;
@@ -45,25 +77,13 @@ const ImageWithColorSwatches = props => {
 
       {colors ? (
         <div style={{ display: "inline-block" }}>
-          <div>
+          {/* <div>
             <p>{colors.primary.r}%</p>
             <p>{colors.primary.g}%</p>
             <p>{colors.primary.b}%</p>
-          </div>{" "}
-          <Avatar
-            style={{
-              // colorjs.io RGB values should be treated as percentages, not numbers
-              backgroundColor: `rgb(${colors.primary.r}% ${colors.primary.g}% ${colors.primary.b}%)`,
-              display: "inline-block",
-              marginRight: "-6px"
-            }}
-          />
-          <Avatar
-            style={{
-              backgroundColor: `rgb(${colors.secondary.r}% ${colors.secondary.g}% ${colors.secondary.b}%)`,
-              display: "inline-block"
-            }}
-          />
+          </div>{" "} */}
+          <ColorSwatch color={colors.primary} first={true} />
+          <ColorSwatch color={colors.secondary} />
         </div>
       ) : null}
     </Inline>

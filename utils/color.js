@@ -45,6 +45,8 @@ export function getDocumentColors({
       secondary: hexToColor(secondaryColor)
     };
   } else {
+    // Generate a complimentary color
+    // See: https://www.sarasoueidan.com/blog/hex-rgb-to-hsl/#hsl-and-color-harmonies
     const complimentary = hexToColor(swatchColor);
     if (complimentary?.hsl?.h) {
       complimentary.hsl.h = getHue(complimentary.hsl.h) + 180;

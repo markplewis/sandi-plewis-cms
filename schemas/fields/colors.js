@@ -55,7 +55,10 @@ const pageColorsField = defineField({
       fields: [
         { name: "r", type: "number" },
         { name: "g", type: "number" },
-        { name: "b", type: "number" }
+        { name: "b", type: "number" },
+        { name: "h", type: "number" },
+        { name: "s", type: "number" },
+        { name: "l", type: "number" }
       ]
     },
     {
@@ -64,7 +67,10 @@ const pageColorsField = defineField({
       fields: [
         { name: "r", type: "number" },
         { name: "g", type: "number" },
-        { name: "b", type: "number" }
+        { name: "b", type: "number" },
+        { name: "h", type: "number" },
+        { name: "s", type: "number" },
+        { name: "l", type: "number" }
       ]
     }
   ]

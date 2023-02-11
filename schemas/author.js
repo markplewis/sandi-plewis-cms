@@ -48,6 +48,11 @@ export default defineType({
     }),
     defineField(descriptionField)
   ],
+  initialValue: async (props, context) => {
+    return {
+      image: { colorPalette: "dominant" }
+    };
+  },
   preview: {
     select: {
       title: "name",

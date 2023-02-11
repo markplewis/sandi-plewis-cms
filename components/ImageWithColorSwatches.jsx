@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useMemo, useState } from "react";
 import { useFormValue } from "sanity";
-import { Inline } from "@sanity/ui"; // https://www.sanity.io/ui
+import { Inline } from "@sanity/ui";
 import useSanityClient from "../lib/useSanityClient";
 import { getPageColors } from "../utils/color";
 import ColorSwatch from "./ColorSwatch";
@@ -20,10 +20,10 @@ function usePageColors(props = {}) {
   }, [client, image]);
 
   const pageColors = useMemo(() => {
-    if (!palette) {
-      return; // Wait for `image.metadata.palette` to be fetched
+    // Wait for `image.metadata.palette` to be fetched or custom colors to be defined
+    if (palette || (primaryColor?.hex && secondaryColor?.hex)) {
+      return getPageColors({ swatchName, palette, primaryColor, secondaryColor });
     }
-    return getPageColors({ swatchName, palette, primaryColor, secondaryColor });
   }, [palette, primaryColor, secondaryColor, swatchName]);
 
   return pageColors;
@@ -40,10 +40,12 @@ const ImageWithColorSwatches = props => {
     image
   });
 
-  useEffect(() => console.log("pageColors", colors), [colors]);
+  // useEffect(() => console.log("pageColors", colors), [colors]);
 
   if (value && colors) {
-    value.pageColors = colors; // Mutate draft document
+    // Mutate draft document
+    // TODO: this doesn't seem to make the changes available to `next-sanity` live preview mode
+    value.pageColors = colors;
   }
   return (
     <Inline space={3}>

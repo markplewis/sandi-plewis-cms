@@ -82,7 +82,7 @@ export default defineType({
           "_ref": _id
         }
       `),
-      colorPalette: "dominant"
+      image: { colorPalette: "dominant" }
     };
   },
   preview: {

@@ -12,8 +12,8 @@ import ImageWithColorSwatches from "./components/ImageWithColorSwatches";
 // https://github.com/reywright/sanity-plugin-asset-source-stock-images
 // https://www.sanity.io/plugins/asset-source-pexels
 
-const projectId = import.meta.env.SANITY_STUDIO_PROJECT_ID;
-const dataset = import.meta.env.SANITY_STUDIO_DATASET;
+const projectId = process.env.SANITY_STUDIO_PROJECT_ID;
+const dataset = process.env.SANITY_STUDIO_DATASET;
 
 // See: https://www.sanity.io/docs/config-api-reference
 

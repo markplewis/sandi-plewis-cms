@@ -4,7 +4,7 @@ import { defineField, defineType } from "sanity";
 
 // This is incorrect and doesn't work but I don't want to forget about `getCliClient`:
 // import { getCliClient } from "sanity/cli";
-// const client = getCliClient({ apiVersion: import.meta.env.SANITY_STUDIO_VERSION });
+// const client = getCliClient({ apiVersion: process.env.SANITY_STUDIO_VERSION });
 
 export default defineType({
   name: "novel",
@@ -133,7 +133,7 @@ export default defineType({
   ],
   initialValue: async (props, context) => {
     const { getClient } = context;
-    const client = getClient({ apiVersion: import.meta.env.SANITY_STUDIO_VERSION });
+    const client = getClient({ apiVersion: process.env.SANITY_STUDIO_VERSION });
     return {
       author: await client.fetch(`
         *[_type == "author"][0]{

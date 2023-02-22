@@ -72,7 +72,7 @@ export default defineType({
   ],
   initialValue: async (props, context) => {
     const { getClient } = context;
-    const client = getClient({ apiVersion: import.meta.env.SANITY_STUDIO_VERSION });
+    const client = getClient({ apiVersion: process.env.SANITY_STUDIO_VERSION });
     return {
       publishedAt: new Date().toISOString(),
       // First author in the database

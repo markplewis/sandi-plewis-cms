@@ -54,8 +54,7 @@ const ImageWithColorSwatches = props => {
   useEffect(() => {
     // If colors have changed
     if (colors && value && !colorsMatch(colors, value.pageColors)) {
-      // TODO: this doesn't seem to make the changes available to `next-sanity` live preview mode
-      // value.pageColors = colors; // Mutate draft document
+      // value.pageColors = colors; // Mutate draft document (unnecessary and maybe a bad idea)
       const nextValue = { ...value, pageColors: colors };
       onChange(nextValue ? set(nextValue) : unset()); // Patch document
     }

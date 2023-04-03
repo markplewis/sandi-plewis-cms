@@ -1,6 +1,7 @@
 import React from "react";
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
+import { pexelsImageAsset } from "sanity-plugin-asset-source-pexels";
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { colorInput } from "@sanity/color-input";
 import { visionTool } from "@sanity/vision";
@@ -29,7 +30,10 @@ export default defineConfig({
     }),
     visionTool(),
     colorInput(),
-    unsplashImageAsset()
+    unsplashImageAsset(),
+    pexelsImageAsset({
+      API_KEY: process.env.SANITY_STUDIO_PEXELS_API_KEY
+    })
   ],
   // https://www.sanity.io/docs/schema-types
   schema: {

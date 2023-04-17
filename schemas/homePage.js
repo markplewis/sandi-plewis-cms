@@ -25,10 +25,10 @@ export default defineType({
     defineField({
       name: "reviews",
       title: "Featured reviews",
-      description: "One or two of the featured novel's reviews",
+      description: "A few of the featured novel's reviews",
       type: "array",
       of: [{ type: "reference", to: { type: "review" } }],
-      validation: Rule => Rule.unique().max(2)
+      validation: Rule => Rule.unique().max(3)
     }),
     defineField({
       name: "author",

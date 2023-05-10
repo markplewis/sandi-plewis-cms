@@ -1,10 +1,10 @@
 import { defineField } from "sanity";
 
 const colorPaletteField = defineField({
-  title: "Colour palette",
   name: "colorPalette",
-  description: `Colours will be extracted from the photo unless you choose "custom", in which case you'll be able to select your own colours`,
+  title: "Colour palette",
   type: "string",
+  description: `Colours will be extracted from the photo unless you choose "custom", in which case you'll be able to select your own colours`,
   options: {
     // See: https://www.sanity.io/docs/image-metadata#5bb0c7e96f42
     list: [
@@ -44,8 +44,8 @@ const secondaryColorField = defineField({
 });
 
 const pageColorsField = defineField({
-  title: "Page colors",
   name: "pageColors",
+  title: "Page colors",
   type: "object",
   hidden: true,
   fields: [

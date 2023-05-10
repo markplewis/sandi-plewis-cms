@@ -37,20 +37,20 @@
   "dependencies": {
     "@sanity/color-input": "^3.0.2",
     "@sanity/icons": "^2.3.1",
-    "@sanity/vision": "^3.9.1",
+    "@sanity/vision": "^3.10.1",
     "colorjs.io": "^0.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
-    "sanity": "^3.9.1",
+    "sanity": "^3.10.1",
     "sanity-plugin-asset-source-pexels": "^3.0.2",
     "sanity-plugin-asset-source-unsplash": "^1.0.6",
     "styled-components": "^5.3.10"
   },
   "devDependencies": {
-    "@sanity/cli": "^3.9.1",
+    "@sanity/cli": "^3.10.1",
     "@sanity/eslint-config-studio": "^2.0.1",
-    "eslint": "^8.39.0",
+    "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"

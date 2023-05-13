@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useFormValue, set, unset } from "sanity";
 import { Inline } from "@sanity/ui";
 import useSanityClient from "../lib/useSanityClient";
-import { getPageColors } from "../utils/color";
+import { getSampledColors } from "../utils/color";
 import ColorSwatch from "./ColorSwatch";
 
 function colorsMatch(colors1, colors2) {
@@ -17,7 +17,7 @@ function colorsMatch(colors1, colors2) {
   );
 }
 
-function usePageColors(props = {}) {
+function useSampledColors(props = {}) {
   const { swatchName = "", primaryColor = {}, secondaryColor = {}, image = "" } = props;
   const [palette, setPalette] = useState();
   const client = useSanityClient();
@@ -30,21 +30,21 @@ function usePageColors(props = {}) {
     }
   }, [client, image]);
 
-  const pageColors = useMemo(() => {
+  const sampledColors = useMemo(() => {
     // Wait for `image.metadata.palette` to be fetched or custom colors to be defined
     if (palette || (primaryColor?.hex && secondaryColor?.hex)) {
-      return getPageColors({ swatchName, palette, primaryColor, secondaryColor });
+      return getSampledColors({ swatchName, palette, primaryColor, secondaryColor });
     }
   }, [palette, primaryColor, secondaryColor, swatchName]);
 
-  return pageColors;
+  return sampledColors;
 }
 
 const ImageWithColorSwatches = props => {
   const { value, renderDefault, onChange } = props;
   const image = useFormValue(["image"])?.asset?._ref;
 
-  const colors = usePageColors({
+  const colors = useSampledColors({
     swatchName: value?.colorPalette ?? "vibrant",
     primaryColor: value?.primaryColor,
     secondaryColor: value?.secondaryColor,
@@ -53,9 +53,9 @@ const ImageWithColorSwatches = props => {
 
   useEffect(() => {
     // If colors have changed
-    if (colors && value && !colorsMatch(colors, value.pageColors)) {
-      // value.pageColors = colors; // Mutate draft document (unnecessary and maybe a bad idea)
-      const nextValue = { ...value, pageColors: colors };
+    if (colors && value && !colorsMatch(colors, value.sampledColors)) {
+      // value.sampledColors = colors; // Mutate draft document (unnecessary and maybe a bad idea)
+      const nextValue = { ...value, sampledColors: colors };
       onChange(nextValue ? set(nextValue) : unset()); // Patch document
     }
   }, [colors, onChange, value]);

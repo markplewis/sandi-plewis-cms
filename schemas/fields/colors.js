@@ -43,9 +43,9 @@ const secondaryColorField = defineField({
   hidden: ({ document }) => document?.image?.colorPalette !== "custom"
 });
 
-const pageColorsField = defineField({
-  name: "pageColors",
-  title: "Page colors",
+const sampledColorsField = defineField({
+  name: "sampledColors",
+  title: "Sampled colors",
   type: "object",
   hidden: true,
   fields: [
@@ -80,7 +80,7 @@ const imageColorFields = [
   primaryColorField,
   secondaryColorField,
   colorPaletteField,
-  pageColorsField
+  sampledColorsField
 ];
 
 export default imageColorFields;

@@ -60,7 +60,7 @@ export function getDocumentColors({
   return documentColors;
 }
 
-export function getPageColors({
+export function getSampledColors({
   swatchName = "",
   palette = {},
   primaryColor = {},

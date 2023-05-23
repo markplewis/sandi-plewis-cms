@@ -9,7 +9,7 @@ export default defineType({
   type: "document",
   fields: [
     defineField({
-      name: "name",
+      name: "title",
       title: "Name",
       type: "string",
       validation: Rule => Rule.required()
@@ -55,7 +55,7 @@ export default defineType({
   },
   preview: {
     select: {
-      title: "name",
+      title: "title",
       media: "image"
     }
   }

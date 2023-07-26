@@ -20,7 +20,7 @@ export default defineType({
       description: "This will appear in the page's URL",
       type: "slug",
       options: {
-        source: "name",
+        source: "title",
         maxLength: 96
       },
       validation: Rule => Rule.required()

@@ -3,11 +3,12 @@
 // https://icons.sanity.build/all
 
 import {
-  EditIcon,
-  HomeIcon,
-  DocumentTextIcon,
-  FolderIcon,
+  BlockContentIcon,
   BookIcon,
+  DocumentTextIcon,
+  EditIcon,
+  FolderIcon,
+  HomeIcon,
   StarIcon,
   UserIcon
 } from "@sanity/icons";
@@ -56,14 +57,16 @@ export const structure = (S, context) =>
               return splitPaneViews(S, listItem, "Authors", "author", UserIcon);
             case "category":
               return splitPaneViews(S, listItem, "Categories", "category", FolderIcon);
+            case "newsItem":
+              return splitPaneViews(S, listItem, "News items", "newsItem", BlockContentIcon);
             case "novel":
               return splitPaneViews(S, listItem, "Novels", "novel", BookIcon);
-            case "shortStory":
-              return splitPaneViews(S, listItem, "Short stories", "shortStory", BookIcon);
             case "post":
               return splitPaneViews(S, listItem, "Posts", "post", DocumentTextIcon);
             case "review":
               return listItem.title("Reviews").icon(StarIcon);
+            case "shortStory":
+              return splitPaneViews(S, listItem, "Short stories", "shortStory", BookIcon);
             default:
               return listItem;
           }

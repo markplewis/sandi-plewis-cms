@@ -16,6 +16,13 @@ export default defineType({
       hidden: true
     }),
     defineField({
+      name: "newsItem",
+      title: "Featured news item",
+      description: "A news item to feature on the home page",
+      type: "reference",
+      to: { type: "newsItem" }
+    }),
+    defineField({
       name: "novel",
       title: "Featured novel",
       description: "A novel to feature on the home page",

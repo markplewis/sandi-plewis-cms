@@ -48,13 +48,22 @@ export default defineType({
       ]
     }),
     defineField({
-      ...descriptionField,
-      description: "Used when linking to this post from another page and also for search engines"
+      name: "overview",
+      title: "Overview",
+      description:
+        "Brief overview that will appear at the top of the page and also on the home page when this news item is featured",
+      type: "blockContent"
     }),
     defineField({
       name: "body",
       title: "Body",
+      description: "The news item's main content",
       type: "blockContent"
+    }),
+    defineField({
+      ...descriptionField,
+      description:
+        "Used when linking to this news item from other pages and also for search engines"
     })
   ],
   initialValue: async (props, context) => {
